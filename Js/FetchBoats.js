@@ -48,20 +48,7 @@ function createBoat(boat) {
         });
 }
 
-// Function to make a DELETE request to /DeleteBoat
-function deleteBoat(id) {
-    fetch(`http://localhost:8080/DeleteBoat?id=${id}`, {
-        method: 'DELETE'
-    })
-        .then(() => {
-            // Handle the successful deletion
-            console.log('Boat deleted successfully'); // Replace with your logic to handle the successful deletion
-        })
-        .catch(error => {
-            // Handle any errors
-            console.error('Error:', error);
-        });
-}
+
 */
 
 const boatForm = document.getElementById('boat-form');
@@ -72,7 +59,7 @@ function fetchBoats() {
         .then(response => response.json())
         .then(boats => {
             boatContainer.innerHTML = '';
-            boats.reverse().forEach(boat => displayBoat(boat));
+            boats.forEach(boat => displayBoat(boat));
         })
         .catch(error => console.error('Error:', error));
 }
@@ -116,6 +103,21 @@ boatForm.addEventListener('submit', event => {
 });
 
 fetchBoats();
+
+// Function to make a DELETE request to /DeleteBoat
+function deleteBoat(id) {
+    fetch(`http://localhost:8080/DeleteBoat?id=${id}`, {
+        method: 'DELETE'
+    })
+        .then(() => {
+            // Handle the successful deletion
+            console.log('Boat deleted successfully'); // Replace with your logic to handle the successful deletion
+        })
+        .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+        });
+}
 
 
 
