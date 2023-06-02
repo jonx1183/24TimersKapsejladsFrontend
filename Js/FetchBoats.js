@@ -1,56 +1,3 @@
-/*
-const boatContainer = document.getElementById('boat-container')
-const boatForm = document.getElementById('boat-form')
-    // Function to make a GET request to /ListOfBoats
-function getListOfBoats() {
-    fetch('http://localhost:8080/ListOfBoats')
-        .then(response => response.json())
-        .then(data => {
-            boatContainer.innerHTML = ``;
-            data.forEach(data => displayBoats(data))
-            // Handle the response data
-            console.log(data); // Replace with your logic to display the data on the frontend
-        })
-        .catch(error => {
-            // Handle any errors
-            console.error('Error:', error);
-        });
-}
-
-function displayBoats(boats) {
-    const boatElement = document.createElement()('type');
-    boatElement.classList.add('boats');
-    boatElement.innerHTML = `
-    <p>${boats.boatId2}</p>
-    <p>${boats.boatType2}</p>
-    `;
-    boatContainer.appendChild(boatElement);
-
-}
-
-// Function to make a POST request to /CreateBoat
-function createBoat(boat) {
-    fetch('http://localhost:8080/CreateBoat', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(boat)
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the response data
-            console.log(data); // Replace with your logic to handle the response
-        })
-        .catch(error => {
-            // Handle any errors
-            console.error('Error:', error);
-        });
-}
-
-
-*/
-
 const boatForm = document.getElementById('boat-form');
 const boatContainer = document.getElementById('boat-container');
 
@@ -70,9 +17,37 @@ function displayBoat(boat) {
     boatElement.innerHTML = `
         <p>${boat.boatId}</p>
         <p>${boat.boatType}</p>
+        <button onclick="deleteBoat(${boat.boatId})">Slet båd</button>
+        <form onsubmit="event.preventDefault(); updateBoatType(${boat.boatId}, this)">
+            <label for="boatType_${boat.boatId}">Updater båd type:</label>
+            <input type="text" id="boatType_${boat.boatId}" required>
+            <button type="submit">Update</button>
+        </form>
       `;
     boatContainer.appendChild(boatElement);
 };
+
+function updateBoatType(id, form) {
+    const boatTypeInput = form.querySelector(`#boatType_${id}`);
+    const boatType = boatTypeInput.value;
+
+    fetch(`http://localhost:8080/UpdateBoat?id=${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ boatType })
+    })
+        .then(response => response.json())
+        .then(updatedBoat => {
+            const boatElement = boatContainer.querySelector(`#boat_${updatedBoat.boatId}`);
+            if (boatElement) {
+                boatElement.querySelector('p:nth-child(2)').textContent = `Boat Type: ${updatedBoat.boatType}`;
+            }
+            boatTypeInput.value = '';
+        })
+        .catch(error => console.error('Error:', error));
+}
 
 boatForm.addEventListener('submit', event => {
     event.preventDefault();
@@ -110,15 +85,14 @@ function deleteBoat(id) {
         method: 'DELETE'
     })
         .then(() => {
-            // Handle the successful deletion
             console.log('Boat deleted successfully'); // Replace with your logic to handle the successful deletion
+            const boatElement = boatContainer.querySelector(`#boat_${id}`);
+            if (boatElement) {
+                boatElement.remove();
+            }
         })
         .catch(error => {
             // Handle any errors
             console.error('Error:', error);
         });
 }
-
-
-
-

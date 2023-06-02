@@ -5,31 +5,12 @@
     <title>List af både</title>
 </head>
 <body>
-
-<!--
-<h1>Boat Management</h1>
-
-<button onclick="getListOfBoats()">Get List of Boats</button>
-
-<h2>List of Boats</h2>
-<ul id="boatList"></ul>
-
-<h2>Create Boat</h2>
-<form onsubmit="event.preventDefault(); createBoat({type: boatType.value })">
-    <label for="boatType">Boat Type:</label>
-    <input type="text" id="boatType" required>
-    <br>
-    <button type="submit">Create Boat</button>
-</form>
-
-
--->
 <h1>Boat maneger</h1>
 
 <h2>Registrer ny båd</h2>
 <form id="boat-form">
     <p>    <label for="boatId">ID:</label>
-        <input type="number" id="id" required>
+        <input type="number" id="boatId" required>
         <br>
         <label for="boatType">Type:</label>
         <input type="text" id="boatType" required>
@@ -40,20 +21,11 @@
 
         <br>
 
-        <button type="submit">Create Boat</button>
+        <button type="submit">Registrer</button>
 
     </p>
 
 </form>
-
-<h2>Slet båd via Id</h2>
-<form onsubmit="event.preventDefault(); deleteBoat(boatId.value)">
-    <label for="boatId">Boat ID:</label>
-    <input type="number" id="boatId" required>
-    <br>
-    <button type="submit">Delete Boat</button>
-</form>
-
 
 <h2>List af all både:</h2>
 
